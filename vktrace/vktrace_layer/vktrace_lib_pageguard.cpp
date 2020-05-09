@@ -409,7 +409,7 @@ void PageGuardExceptionHandler(int sig, siginfo_t* si, void* unused) {
         if (pMappedMem) {
             uint64_t index = pMappedMem->getIndexOfChangedBlockByAddr(addr);
             pMappedMem->setMappedBlockChanged(index, true, BLOCK_FLAG_ARRAY_CHANGED);
-            if (mprotect(pMappedMem->getMappedDataPointer() + index * pageguardGetSystemPageSize(),
+            if (true || mprotect(pMappedMem->getMappedDataPointer() + index * pageguardGetSystemPageSize(),
                          (SIZE_T)pMappedMem->getMappedBlockSize(index), (PROT_READ | PROT_WRITE)) == -1) {
                 vktrace_LogError("Clear memory protect on page(%d) failed !", index);
             }

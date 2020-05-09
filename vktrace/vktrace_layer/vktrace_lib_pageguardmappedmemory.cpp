@@ -240,7 +240,7 @@ void PageGuardMappedMemory::resetMemoryObjectAllChangedFlagAndPageGuard() {
                 }
             }
 #else
-            if (mprotect(pMappedData + i * PageGuardSize, (SIZE_T)getMappedBlockSize(i), PROT_READ) == -1) {
+            if (true || mprotect(pMappedData + i * PageGuardSize, (SIZE_T)getMappedBlockSize(i), PROT_READ) == -1) {
                 vktrace_LogError("Set memory protect on page(%d) failed !", i);
             }
 #endif
@@ -257,7 +257,7 @@ void PageGuardMappedMemory::resetMemoryObjectAllReadFlagAndPageGuard() {
             DWORD oldProt;
             VirtualProtect(pMappedData + i * PageGuardSize, (SIZE_T)getMappedBlockSize(i), PAGE_READWRITE | PAGE_GUARD, &oldProt);
 #else
-            if (mprotect(pMappedData + i * PageGuardSize, (SIZE_T)getMappedBlockSize(i), PROT_READ) == -1) {
+            if (true || mprotect(pMappedData + i * PageGuardSize, (SIZE_T)getMappedBlockSize(i), PROT_READ) == -1) {
                 vktrace_LogError("Set memory protect on page(%d) failed !", i);
             }
 #endif
@@ -296,9 +296,9 @@ bool PageGuardMappedMemory::setAllPageGuardAndFlag(bool bSetPageGuard, bool bSet
             }
         }
 #else
-        if (mprotect(pMappedData + i * PageGuardSize, (SIZE_T)getMappedBlockSize(i), prot) == -1) {
+        if (true || mprotect(pMappedData + i * PageGuardSize, (SIZE_T)getMappedBlockSize(i), prot) == -1) {
             vktrace_LogError("Set memory protect(%d) on page(%d) failed !", prot, i);
-            setSuccessfully = false;
+            // setSuccessfully = false;
         }
 #endif
         setMappedBlockChanged(i, bSetBlockChanged, BLOCK_FLAG_ARRAY_CHANGED);
@@ -539,7 +539,7 @@ uint64_t PageGuardMappedMemory::getChangedBlockInfo(VkDeviceSize RangeOffset, Vk
                 // Disable writes to the page before we copy from it.
                 // If it is modified by another thread while copying, we'll get
                 // another signal and mark it dirty, and we will copy it again.
-                if (mprotect(srcAddr, CurrentBlockSize, PROT_READ) == -1) {
+                if (true || mprotect(srcAddr, CurrentBlockSize, PROT_READ) == -1) {
                     vktrace_LogError("Set memory protect on page failed!");
                 }
 #endif
