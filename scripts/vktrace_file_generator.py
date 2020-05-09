@@ -886,25 +886,6 @@ class VkTraceFileOutputGenerator(OutputGenerator):
                     replay_gen_source += '            vkreplay_process_pnext_structs(pPacket->header, (void *)pPacket->pInfo);\n'
                     replay_gen_source += '            for (uint32_t i=0; i<*pPacket->pSparseMemoryRequirementCount; i++)\n'
                     replay_gen_source += '                vkreplay_process_pnext_structs(pPacket->header, (void *)(&pPacket->pSparseMemoryRequirements[i]));\n'
-                elif 'CreateSamplerYcbcrConversion' in cmdname:
-                    replay_gen_source += '            vkreplay_process_pnext_structs(pPacket->header, (void *)pPacket->pCreateInfo);\n'
-                    replay_gen_source += '            vkreplay_process_pnext_structs(pPacket->header, (void *)pPacket->pYcbcrConversion);\n'
-                elif 'GetPhysicalDeviceFormatProperties2' in cmdname:
-                    replay_gen_source += '            vkreplay_process_pnext_structs(pPacket->header, (void *)pPacket->pFormatProperties);\n'
-                elif 'GetPhysicalDeviceImageFormatProperties2' in cmdname:
-                    replay_gen_source += '            vkreplay_process_pnext_structs(pPacket->header, (void *)pPacket->pImageFormatInfo);\n'
-                    replay_gen_source += '            vkreplay_process_pnext_structs(pPacket->header, (void *)pPacket->pImageFormatProperties);\n'
-                elif 'GetPhysicalDeviceQueueFamilyProperties2' in cmdname:
-                    replay_gen_source += '            for (uint32_t i=0; i<*pPacket->pQueueFamilyPropertyCount; i++)\n'
-                    replay_gen_source += '                vkreplay_process_pnext_structs(pPacket->header, (void *)(&pPacket->pQueueFamilyProperties[i]));\n'
-                elif 'GetPhysicalDeviceMemoryProperties2' in cmdname:
-                    replay_gen_source += '            vkreplay_process_pnext_structs(pPacket->header, (void *)pPacket->pMemoryProperties);\n'
-                elif 'GetDeviceQueue2' in cmdname:
-                    replay_gen_source += '            vkreplay_process_pnext_structs(pPacket->header, (void *)pPacket->pQueueInfo);\n'
-                elif 'GetPhysicalDeviceSparseImageFormatProperties2' in cmdname:
-                    replay_gen_source += '            vkreplay_process_pnext_structs(pPacket->header, (void *)pPacket->pFormatInfo);\n'
-                    replay_gen_source += '            for (uint32_t i=0; i<*pPacket->pPropertyCount; i++)\n'
-                    replay_gen_source += '                vkreplay_process_pnext_structs(pPacket->header, (void *)(&pPacket->pProperties[i]));\n'
                 # Build the call to the "real_" entrypoint
                 rr_string = '            '
                 if ret_value:
